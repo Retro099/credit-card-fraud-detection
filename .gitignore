@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.env
+.venv/
+venv/
+*.log
+# data (Kaggle dataset is not redistributed)
+data/
+*.csv
+# large model weights (>50MB) - keep only the small shipped joblib
+*.bin
+*.safetensors
+*.pt
+*.onnx
