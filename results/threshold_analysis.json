@@ -1,0 +1,262 @@
+{
+ "csv_sha256": "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89",
+ "versions": {
+  "python": "3.11.16",
+  "sklearn": "1.6.1",
+  "xgboost": "3.2.0"
+ },
+ "split": {
+  "n_fit": 170883,
+  "n_val": 56962,
+  "n_test": 56962,
+  "fraud_val": 99,
+  "fraud_test": 98
+ },
+ "models": {
+  "shipped_artifact": {
+   "trained_on": "full train split (notebook)",
+   "test_pr_auc": 0.8787,
+   "test": [
+    {
+     "threshold": 0.1,
+     "tp": 84,
+     "fp": 28,
+     "fn": 14,
+     "recall": 0.8571,
+     "precision": 0.75,
+     "per_10k": {
+      "frauds_caught": 14.75,
+      "frauds_missed": 2.46,
+      "false_alerts": 4.92
+     }
+    },
+    {
+     "threshold": 0.3,
+     "tp": 83,
+     "fp": 13,
+     "fn": 15,
+     "recall": 0.8469,
+     "precision": 0.8646,
+     "per_10k": {
+      "frauds_caught": 14.57,
+      "frauds_missed": 2.63,
+      "false_alerts": 2.28
+     }
+    },
+    {
+     "threshold": 0.5,
+     "tp": 82,
+     "fp": 11,
+     "fn": 16,
+     "recall": 0.8367,
+     "precision": 0.8817,
+     "per_10k": {
+      "frauds_caught": 14.4,
+      "frauds_missed": 2.81,
+      "false_alerts": 1.93
+     }
+    },
+    {
+     "threshold": 0.7,
+     "tp": 82,
+     "fp": 9,
+     "fn": 16,
+     "recall": 0.8367,
+     "precision": 0.9011,
+     "per_10k": {
+      "frauds_caught": 14.4,
+      "frauds_missed": 2.81,
+      "false_alerts": 1.58
+     }
+    },
+    {
+     "threshold": 0.9,
+     "tp": 81,
+     "fp": 5,
+     "fn": 17,
+     "recall": 0.8265,
+     "precision": 0.9419,
+     "per_10k": {
+      "frauds_caught": 14.22,
+      "frauds_missed": 2.98,
+      "false_alerts": 0.88
+     }
+    }
+   ]
+  },
+  "xgboost_fit_split": {
+   "chosen_threshold_rule": "max F1 on validation",
+   "chosen_threshold": 0.804502,
+   "val_f1_at_chosen": 0.838,
+   "val_pr_auc": 0.8099,
+   "test_pr_auc": 0.8828,
+   "test_at_chosen": {
+    "threshold": 0.804502,
+    "tp": 81,
+    "fp": 6,
+    "fn": 17,
+    "recall": 0.8265,
+    "precision": 0.931,
+    "per_10k": {
+     "frauds_caught": 14.22,
+     "frauds_missed": 2.98,
+     "false_alerts": 1.05
+    }
+   },
+   "test": [
+    {
+     "threshold": 0.1,
+     "tp": 83,
+     "fp": 23,
+     "fn": 15,
+     "recall": 0.8469,
+     "precision": 0.783,
+     "per_10k": {
+      "frauds_caught": 14.57,
+      "frauds_missed": 2.63,
+      "false_alerts": 4.04
+     }
+    },
+    {
+     "threshold": 0.3,
+     "tp": 83,
+     "fp": 14,
+     "fn": 15,
+     "recall": 0.8469,
+     "precision": 0.8557,
+     "per_10k": {
+      "frauds_caught": 14.57,
+      "frauds_missed": 2.63,
+      "false_alerts": 2.46
+     }
+    },
+    {
+     "threshold": 0.5,
+     "tp": 82,
+     "fp": 8,
+     "fn": 16,
+     "recall": 0.8367,
+     "precision": 0.9111,
+     "per_10k": {
+      "frauds_caught": 14.4,
+      "frauds_missed": 2.81,
+      "false_alerts": 1.4
+     }
+    },
+    {
+     "threshold": 0.7,
+     "tp": 81,
+     "fp": 8,
+     "fn": 17,
+     "recall": 0.8265,
+     "precision": 0.9101,
+     "per_10k": {
+      "frauds_caught": 14.22,
+      "frauds_missed": 2.98,
+      "false_alerts": 1.4
+     }
+    },
+    {
+     "threshold": 0.9,
+     "tp": 80,
+     "fp": 5,
+     "fn": 18,
+     "recall": 0.8163,
+     "precision": 0.9412,
+     "per_10k": {
+      "frauds_caught": 14.04,
+      "frauds_missed": 3.16,
+      "false_alerts": 0.88
+     }
+    }
+   ]
+  },
+  "logreg_balanced_fit_split": {
+   "chosen_threshold_rule": "max F1 on validation",
+   "chosen_threshold": 1.0,
+   "val_f1_at_chosen": 0.7676,
+   "val_pr_auc": 0.6831,
+   "test_pr_auc": 0.7209,
+   "test_at_chosen": {
+    "threshold": 1.0,
+    "tp": 80,
+    "fp": 20,
+    "fn": 18,
+    "recall": 0.8163,
+    "precision": 0.8,
+    "per_10k": {
+     "frauds_caught": 14.04,
+     "frauds_missed": 3.16,
+     "false_alerts": 3.51
+    }
+   },
+   "test": [
+    {
+     "threshold": 0.1,
+     "tp": 93,
+     "fp": 9181,
+     "fn": 5,
+     "recall": 0.949,
+     "precision": 0.01,
+     "per_10k": {
+      "frauds_caught": 16.33,
+      "frauds_missed": 0.88,
+      "false_alerts": 1611.78
+     }
+    },
+    {
+     "threshold": 0.3,
+     "tp": 90,
+     "fp": 2846,
+     "fn": 8,
+     "recall": 0.9184,
+     "precision": 0.0307,
+     "per_10k": {
+      "frauds_caught": 15.8,
+      "frauds_missed": 1.4,
+      "false_alerts": 499.63
+     }
+    },
+    {
+     "threshold": 0.5,
+     "tp": 90,
+     "fp": 1378,
+     "fn": 8,
+     "recall": 0.9184,
+     "precision": 0.0613,
+     "per_10k": {
+      "frauds_caught": 15.8,
+      "frauds_missed": 1.4,
+      "false_alerts": 241.92
+     }
+    },
+    {
+     "threshold": 0.7,
+     "tp": 88,
+     "fp": 715,
+     "fn": 10,
+     "recall": 0.898,
+     "precision": 0.1096,
+     "per_10k": {
+      "frauds_caught": 15.45,
+      "frauds_missed": 1.76,
+      "false_alerts": 125.52
+     }
+    },
+    {
+     "threshold": 0.9,
+     "tp": 87,
+     "fp": 335,
+     "fn": 11,
+     "recall": 0.8878,
+     "precision": 0.2062,
+     "per_10k": {
+      "frauds_caught": 15.27,
+      "frauds_missed": 1.93,
+      "false_alerts": 58.81
+     }
+    }
+   ]
+  }
+ }
+}
