@@ -45,7 +45,7 @@ Caveats: one split and one seed, no confidence intervals; 98 test frauds means o
 
 ```bash
 pip install -r requirements-dev.txt
-pytest -q                      # 6 tests, no dataset needed
+pytest -q                      # 8 tests, no dataset needed
 python predict.py              # CLI prediction on a dummy row
 python scripts/threshold_analysis.py   # needs data/creditcard.csv; writes results/threshold_analysis.json
 streamlit run app.py           # local demo
