@@ -1,10 +1,19 @@
 # Credit Card Fraud Detection
 
-**One line:** an XGBoost model that catches 84% of fraud on a dataset where only 0.172% of transactions are fraud, with SHAP explanations, a Streamlit demo, Docker and tests.
+[![CI](https://github.com/Retro099/credit-card-fraud-detection/actions/workflows/ci.yml/badge.svg)](https://github.com/Retro099/credit-card-fraud-detection/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](.github/workflows/ci.yml)
 
-[![CI](https://github.com/Retro099/credit-card-fraud-detection/actions/workflows/ci.yml/badge.svg)](https://github.com/Retro099/credit-card-fraud-detection/actions/workflows/ci.yml)
+**TL;DR**
+- **Problem:** flag fraudulent card transactions when only 0.172% are fraud (public Kaggle **ULB** "Credit Card Fraud Detection" dataset, 284,807 transactions, 2013 Europe).
+- **Approach:** stratified 80/20 train/test split; XGBoost with `scale_pos_weight` compared against logistic regression, random forest and LightGBM on recall / precision / PR-AUC; SHAP explanations; Streamlit + Docker demo.
+- **Result:** recall 0.84, precision 0.88, PR-AUC 0.88 on 98 test frauds (single split, single seed). A threshold chosen on a separate **validation** split (0.805) trades 0.35 fewer false alerts for 0.18 more missed frauds per 10k; the shipped threshold stays 0.5.
 
-**Live demo:** https://ml-projects-credit-card-fraud-detection.streamlit.app/ (deployed from the original `ML-Projects` monorepo)
+| Metric (test split, 56,962 tx, 98 fraud) | XGBoost (shipped, 0.5) | Caveat |
+|---|---|---|
+| Recall / precision (fraud) | **0.84 / 0.88** | one split, no CIs; 1 fraud ≈ 1 recall point |
+| PR-AUC | **0.88** (LR baseline 0.72) | baseline re-trained on the fit split |
+| False alerts per 10k transactions | **1.93** (14.40 frauds caught) | see threshold table below |
+
+**Live demo:** https://ml-projects-credit-card-fraud-detection.streamlit.app/ (deployed from the archived `ML-Projects` monorepo this repo was split from)
 
 ## Results
 
@@ -16,6 +25,8 @@ Test split: 56,962 transactions, 98 fraud. Threshold 0.5. Source: committed outp
 | Random forest (balanced_subsample) | 0.81 | 0.79 | 0.82 | |
 | **XGBoost + scale_pos_weight (shipped)** | **0.84** | **0.88** | **0.88** | exact: 0.8367 / 0.8817 / 0.8787 |
 | LightGBM (balanced) | 0.84 | 0.84 | 0.87 | close second |
+
+![Precision-recall curve (shipped model)](assets/pr_curve_best.png)
 
 Top SHAP drivers: **V14** and **V17** (strongly negative values push the score toward fraud).
 
@@ -41,27 +52,26 @@ Validation-chosen threshold (XGBoost re-trained on the fit split, test PR-AUC 0.
 
 Caveats: one split and one seed, no confidence intervals; 98 test frauds means one fraud = 0.18 per 10k (about 1 recall point). Data: `creditcard.csv`, sha256 in the JSON.
 
-## Quickstart
-
-```bash
-pip install -r requirements-dev.txt
-pytest -q                      # 8 tests, no dataset needed
-python predict.py              # CLI prediction on a dummy row
-python scripts/threshold_analysis.py   # needs data/creditcard.csv; writes results/threshold_analysis.json
-streamlit run app.py           # local demo
-docker compose up --build      # same, in Docker (http://localhost:8501)
-```
-
-### Dataset (not committed)
-Kaggle "Credit Card Fraud Detection" (ULB, 284,807 transactions): https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud  
-Download `creditcard.csv` into `data/` (git-ignored) and run the notebook (Colab works) to retrain.
-
 ## How it works
 1. Features: `Time`, `Amount` and the anonymised PCA components `V1`–`V28`.
 2. Stratified train/test split; imbalance handled with class weights (`scale_pos_weight`) rather than oversampling.
 3. Compared logistic regression, resampling variants, random forest, XGBoost and LightGBM on recall, precision and PR-AUC (not accuracy: a model that says "never fraud" is 99.83% accurate).
 4. SHAP explains which features push each prediction toward fraud.
 5. The chosen pipeline is saved as `artifacts/fraud_model_v1.joblib` (0.5 MB) and served by `predict.py` and `app.py`.
+
+## Quickstart
+
+```bash
+pip install -r requirements-dev.txt
+pytest -q                      # 8 tests, no dataset needed
+streamlit run app.py           # local demo (or: docker compose up --build → http://localhost:8501)
+```
+
+More: `python predict.py` (CLI prediction on a dummy row); `python scripts/threshold_analysis.py` (needs `data/creditcard.csv`, writes `results/threshold_analysis.json`).
+
+### Dataset (not committed)
+Kaggle "Credit Card Fraud Detection" (ULB, 284,807 transactions): https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud  
+Download `creditcard.csv` into `data/` (git-ignored) and run the notebook (Colab works) to retrain.
 
 ## Limitations
 - Single train/test split; no cross-validation or confidence intervals.
@@ -70,7 +80,21 @@ Download `creditcard.csv` into `data/` (git-ignored) and run the notebook (Colab
 - Public 2013 European dataset; real systems need drift monitoring and retraining.
 - Model pickle needs `scikit-learn==1.6.1` (pinned).
 
+## Repository structure
+
+```text
+notebooks/   # Credit_Card_Fraud.ipynb: EDA, model comparison, SHAP (source of the headline numbers)
+scripts/     # threshold_analysis.py: validation-chosen threshold and cost table
+results/     # threshold_analysis.json
+artifacts/   # fraud_model_v1.joblib (shipped pipeline)
+assets/      # plots (PR curve, confusion matrix, SHAP)
+app.py, predict.py   # Streamlit demo and CLI
+tests/       # 8 pytest tests
+```
+
 ## Project history
 Split out of [Retro099/ML-Projects](https://github.com/Retro099/ML-Projects) (archived) on 2026-10-12.
 
-License: MIT
+## License
+
+MIT ([LICENSE](LICENSE)).
