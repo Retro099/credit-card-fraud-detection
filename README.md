@@ -13,7 +13,7 @@
 | PR-AUC | **0.88** (LR baseline 0.72) | baseline re-trained on the fit split |
 | False alerts per 10k transactions | **1.93** (14.40 frauds caught) | see threshold table below |
 
-**Live demo:** https://ml-projects-credit-card-fraud-detection.streamlit.app/ (deployed from the archived `ML-Projects` monorepo this repo was split from)
+**Live demo:** https://ml-projects-credit-card-fraud-detection.streamlit.app/ (demo may be offline; hosted from the archived ML-Projects repo. On 2026-10-25 it redirected to a Streamlit sign-in page. To run it yourself: `streamlit run app.py`)
 
 ## Results
 
@@ -93,7 +93,7 @@ tests/       # 8 pytest tests
 ```
 
 ## Project history
-Split out of [Retro099/ML-Projects](https://github.com/Retro099/ML-Projects) (archived) on 2026-10-12.
+Split out of the archived ML-Projects monorepo on 2026-10-12; this repo, [Retro099/credit-card-fraud-detection](https://github.com/Retro099/credit-card-fraud-detection), is the maintained version. Sibling projects: [japanese-rag-eval](https://github.com/Retro099/japanese-rag-eval), [jp-meeting-to-crm-fields](https://github.com/Retro099/jp-meeting-to-crm-fields).
 
 ## License
 
