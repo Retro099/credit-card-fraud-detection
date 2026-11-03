@@ -1,5 +1,7 @@
 # Credit Card Fraud Detection
 
+**Evaluation work, test split of 56,962 transactions (98 fraud).** Model evaluation alongside [jp-meeting-to-crm-fields](https://github.com/Retro099/jp-meeting-to-crm-fields); not a production system.
+
 [![CI](https://github.com/Retro099/credit-card-fraud-detection/actions/workflows/ci.yml/badge.svg)](https://github.com/Retro099/credit-card-fraud-detection/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](.github/workflows/ci.yml)
 
 **TL;DR**
@@ -29,6 +31,14 @@ Test split: 56,962 transactions, 98 fraud. Threshold 0.5. Source: committed outp
 ![Precision-recall curve (shipped model)](assets/pr_curve_best.png)
 
 Top SHAP drivers: **V14** and **V17** (strongly negative values push the score toward fraud).
+
+## Threshold trade-off (plain language)
+
+At the shipped operating point (threshold 0.5, test split of 56,962 transactions with 98 frauds), recall 0.84 and precision 0.88 mean, by simple arithmetic on those two numbers:
+- of every 100 real frauds, about **16 are missed** (100 - 84);
+- of every 100 transactions flagged, about **12 are false alarms** (100 - 88).
+
+Raising the threshold flags fewer transactions: fewer false alarms, but more missed fraud. Lowering it does the opposite. From the table below (same test split, `results/threshold_analysis.json`): at 0.3, recall 0.85 / precision 0.86; at 0.9, recall 0.83 / precision 0.94. The right setting depends on what a missed fraud costs compared with a manual review, which is not measured here.
 
 ## Threshold and cost (frauds caught vs false alerts)
 
